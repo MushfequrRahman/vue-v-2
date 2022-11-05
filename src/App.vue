@@ -5,8 +5,29 @@
       <router-link to="/about">About</router-link>
     </nav>
     <router-view />
+    <p v-if="loading">Loading...</p>
+    <ul v-else>
+      <li v-for="(value, key) in post" :key="key">{{ key }} : {{ value }}</li>
+    </ul>
   </div>
 </template>
+
+<script>
+import axios from "axios";
+
+export default {
+  data() {
+    return {
+      post: null,
+    };
+  },
+  created: function () {
+    axios.get("http://api.lokiee.com/posts/1.json").then((res) => {
+      this.post = res.data;
+    });
+  },
+};
+</script>
 
 <style>
 #app {
